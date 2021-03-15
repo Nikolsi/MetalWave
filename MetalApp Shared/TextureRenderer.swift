@@ -23,12 +23,6 @@ class TextureRenderer: NSObject, MTKViewDelegate{
     var timerBuffer: MTLBuffer
     var time = TimeInterval(0.0)
     
-    
-    var speed: Float = 0.0
-    var speedBuffer: MTLBuffer
-    var intense: Float = 700.0
-    var intenseBuffer: MTLBuffer
-    
     init?(metalKitView: MTKView){
         
         view = metalKitView
@@ -60,8 +54,6 @@ class TextureRenderer: NSObject, MTKViewDelegate{
         }
         
         timerBuffer = device.makeBuffer(length: MemoryLayout<Float>.size, options: [])!
-        speedBuffer = device.makeBuffer(length: MemoryLayout<Float>.size, options: [])!
-        intenseBuffer = device.makeBuffer(length: MemoryLayout<Float>.size, options: [])!
 
         
         super.init()
@@ -120,12 +112,6 @@ class TextureRenderer: NSObject, MTKViewDelegate{
             
             let timestep = 1.0 / TimeInterval(view.preferredFramesPerSecond)
             updateWithTimestep(timestep)
-            
-            commandEncoder!.setBuffer(speedBuffer, offset: 0, index: 1)
-            commandEncoder!.setBytes(&speed, length: MemoryLayout<Float>.size, index: 1)
-            
-            commandEncoder!.setBuffer(intenseBuffer, offset: 0, index: 2)
-            commandEncoder!.setBytes(&intense, length: MemoryLayout<Float>.size, index: 2)
             
             let threadGroupCount = MTLSizeMake(8, 8, 1)
             let threadGroups = MTLSizeMake(drawable.texture.width / threadGroupCount.width, drawable.texture.height / threadGroupCount.height, 1)
