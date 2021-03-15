@@ -23,6 +23,8 @@ enum RendererError: Error {
 class Renderer: NSObject, MTKViewDelegate {
     
     public let device: MTLDevice
+    public let vertexDescriptor: MTLVertexDescriptor
+    
     let commandQueue: MTLCommandQueue
     var dynamicUniformBuffer: MTLBuffer
     var pipelineState: MTLRenderPipelineState
@@ -61,12 +63,12 @@ class Renderer: NSObject, MTKViewDelegate {
         metalKitView.colorPixelFormat = MTLPixelFormat.bgra8Unorm_srgb
         metalKitView.sampleCount = 1
         
-        let mtlVertexDescriptor = Renderer.buildMetalVertexDescriptor()
+        vertexDescriptor = Renderer.buildMetalVertexDescriptor()
         
         do {
             pipelineState = try Renderer.buildRenderPipelineWithDevice(device: device,
                                                                        metalKitView: metalKitView,
-                                                                       mtlVertexDescriptor: mtlVertexDescriptor)
+                                                                       mtlVertexDescriptor: vertexDescriptor)
         } catch {
             print("Unable to compile render pipeline state.  Error info: \(error)")
             return nil
@@ -79,14 +81,14 @@ class Renderer: NSObject, MTKViewDelegate {
         depthState = state
         
         do {
-            mesh = try Renderer.buildMesh(device: device, mtlVertexDescriptor: mtlVertexDescriptor)
+            mesh = try Plane(device: device, vertexDescriptor: vertexDescriptor).mesh
         } catch {
             print("Unable to build MetalKit Mesh. Error info: \(error)")
             return nil
         }
         
         do {
-            colorMap = try Renderer.loadTexture(device: device, textureName: "ColorMap")
+            colorMap = try Renderer.loadTexture(device: device, textureName: "Texture")
         } catch {
             print("Unable to load texture. Error info: \(error)")
             return nil
@@ -145,31 +147,6 @@ class Renderer: NSObject, MTKViewDelegate {
         return try device.makeRenderPipelineState(descriptor: pipelineDescriptor)
     }
     
-    class func buildMesh(device: MTLDevice,
-                         mtlVertexDescriptor: MTLVertexDescriptor) throws -> MTKMesh {
-        /// Create and condition mesh data to feed into a pipeline using the given vertex descriptor
-        
-        let metalAllocator = MTKMeshBufferAllocator(device: device)
-        
-        let mdlMesh = MDLMesh.newBox(withDimensions: SIMD3<Float>(4, 4, 4),
-                                     segments: SIMD3<UInt32>(2, 2, 2),
-                                     geometryType: MDLGeometryType.triangles,
-                                     inwardNormals:false,
-                                     allocator: metalAllocator)
-        
-        let mdlVertexDescriptor = MTKModelIOVertexDescriptorFromMetal(mtlVertexDescriptor)
-        
-        guard let attributes = mdlVertexDescriptor.attributes as? [MDLVertexAttribute] else {
-            throw RendererError.badVertexDescriptor
-        }
-        attributes[VertexAttribute.position.rawValue].name = MDLVertexAttributePosition
-        attributes[VertexAttribute.texcoord.rawValue].name = MDLVertexAttributeTextureCoordinate
-        
-        mdlMesh.vertexDescriptor = mdlVertexDescriptor
-        
-        return try MTKMesh(mesh:mdlMesh, device:device)
-    }
-    
     class func loadTexture(device: MTLDevice,
                            textureName: String) throws -> MTLTexture {
         /// Load texture data with optimal parameters for sampling
@@ -202,12 +179,11 @@ class Renderer: NSObject, MTKViewDelegate {
         /// Update any game state before rendering
         
         uniforms[0].projectionMatrix = projectionMatrix
-        
-        let rotationAxis = SIMD3<Float>(1, 1, 0)
-        let modelMatrix = matrix4x4_rotation(radians: rotation, axis: rotationAxis)
+        let rotationAxis = SIMD3<Float>(1, 0, 0)
+        let modelMatrix = matrix4x4_rotation(radians: .pi/2, axis: rotationAxis)
         let viewMatrix = matrix4x4_translation(0.0, 0.0, -8.0)
         uniforms[0].modelViewMatrix = simd_mul(viewMatrix, modelMatrix)
-        rotation += 0.01
+        uniforms[0].color = SIMD4<Float>(Float.random(in: 0..<1), Float.random(in: 0..<1), Float.random(in: 0..<1), 1)
     }
     
     func draw(in view: MTKView) {
@@ -235,7 +211,7 @@ class Renderer: NSObject, MTKViewDelegate {
                 /// Final pass rendering code here
                 renderEncoder.label = "Primary Render Encoder"
                 
-                renderEncoder.pushDebugGroup("Draw Box")
+                renderEncoder.pushDebugGroup("Draw Plane")
                 
                 renderEncoder.setCullMode(.back)
                 
@@ -287,7 +263,7 @@ class Renderer: NSObject, MTKViewDelegate {
         /// Respond to drawable size or orientation changes here
         
         let aspect = Float(size.width) / Float(size.height)
-        projectionMatrix = matrix_perspective_right_hand(fovyRadians: radians_from_degrees(65), aspectRatio:aspect, nearZ: 0.1, farZ: 100.0)
+        projectionMatrix = matrix_perspective_right_hand(fovyRadians: radians_from_degrees(50), aspectRatio:aspect, nearZ: 0.1, farZ: 100.0)
     }
 }
 

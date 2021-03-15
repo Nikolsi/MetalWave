@@ -11,7 +11,7 @@ import MetalKit
 // Our macOS specific view controller
 class GameViewController: NSViewController {
 
-    var renderer: Renderer!
+    var renderer: TextureRenderer!
     var mtkView: MTKView!
 
     override func viewDidLoad() {
@@ -30,7 +30,7 @@ class GameViewController: NSViewController {
 
         mtkView.device = defaultDevice
 
-        guard let newRenderer = Renderer(metalKitView: mtkView) else {
+        guard let newRenderer = TextureRenderer(metalKitView: mtkView) else {
             print("Renderer cannot be initialized")
             return
         }
@@ -40,5 +40,11 @@ class GameViewController: NSViewController {
         renderer.mtkView(mtkView, drawableSizeWillChange: mtkView.drawableSize)
 
         mtkView.delegate = renderer
+    }
+    
+    override func mouseDown(with event: NSEvent) {
+//        var location = view.convert(event.locationInWindow, from: nil)
+//                location.y = view.bounds.height - location.y // Flip from AppKit default window coordinates to Metal viewport coordinates
+//        self.renderer.handleInteraction(at: location)
     }
 }

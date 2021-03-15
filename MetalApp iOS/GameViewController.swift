@@ -11,7 +11,7 @@ import MetalKit
 // Our iOS specific view controller
 class GameViewController: UIViewController {
 
-    var renderer: Renderer!
+    var renderer: TextureRenderer!
     var mtkView: MTKView!
 
     override func viewDidLoad() {
@@ -31,7 +31,7 @@ class GameViewController: UIViewController {
         mtkView.device = defaultDevice
         mtkView.backgroundColor = UIColor.black
 
-        guard let newRenderer = Renderer(metalKitView: mtkView) else {
+        guard let newRenderer = TextureRenderer(metalKitView: mtkView) else {
             print("Renderer cannot be initialized")
             return
         }
@@ -41,5 +41,11 @@ class GameViewController: UIViewController {
         renderer.mtkView(mtkView, drawableSizeWillChange: mtkView.drawableSize)
 
         mtkView.delegate = renderer
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        if let location = touches.first?.location(in: view) {
+//            self.renderer.handleInteraction(at: location)
+//        }
     }
 }

@@ -30,6 +30,12 @@
 		6D033A6725FCFE4300AEBCC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D033A2B25FCFE4300AEBCC8 /* Assets.xcassets */; };
 		6D033A6825FCFE4300AEBCC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D033A2B25FCFE4300AEBCC8 /* Assets.xcassets */; };
 		6D033A6925FCFE4300AEBCC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D033A2B25FCFE4300AEBCC8 /* Assets.xcassets */; };
+		6D033AA325FD0C4D00AEBCC8 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D033AA225FD0C4D00AEBCC8 /* Plane.swift */; };
+		6D033AA425FD0C4D00AEBCC8 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D033AA225FD0C4D00AEBCC8 /* Plane.swift */; };
+		6D033AA525FD0C4D00AEBCC8 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D033AA225FD0C4D00AEBCC8 /* Plane.swift */; };
+		6D033AAD25FEAF9700AEBCC8 /* TextureRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D033AAC25FEAF9700AEBCC8 /* TextureRenderer.swift */; };
+		6D033AAE25FEAF9700AEBCC8 /* TextureRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D033AAC25FEAF9700AEBCC8 /* TextureRenderer.swift */; };
+		6D033AAF25FEAF9700AEBCC8 /* TextureRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D033AAC25FEAF9700AEBCC8 /* TextureRenderer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +61,8 @@
 		6D033A5A25FCFE4300AEBCC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6D033A5C25FCFE4300AEBCC8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6D033A5D25FCFE4300AEBCC8 /* MetalApp_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MetalApp_macOS.entitlements; sourceTree = "<group>"; };
+		6D033AA225FD0C4D00AEBCC8 /* Plane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
+		6D033AAC25FEAF9700AEBCC8 /* TextureRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureRenderer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,8 +104,9 @@
 		6D033A2725FCFE4000AEBCC8 /* MetalApp Shared */ = {
 			isa = PBXGroup;
 			children = (
+				6D033AAC25FEAF9700AEBCC8 /* TextureRenderer.swift */,
+				6D033A9E25FD0BF800AEBCC8 /* Renderer */,
 				6D033A2825FCFE4000AEBCC8 /* Shaders.metal */,
-				6D033A2925FCFE4000AEBCC8 /* Renderer.swift */,
 				6D033A2A25FCFE4000AEBCC8 /* ShaderTypes.h */,
 				6D033A2B25FCFE4300AEBCC8 /* Assets.xcassets */,
 			);
@@ -148,6 +157,15 @@
 				6D033A5D25FCFE4300AEBCC8 /* MetalApp_macOS.entitlements */,
 			);
 			path = "MetalApp macOS";
+			sourceTree = "<group>";
+		};
+		6D033A9E25FD0BF800AEBCC8 /* Renderer */ = {
+			isa = PBXGroup;
+			children = (
+				6D033A2925FCFE4000AEBCC8 /* Renderer.swift */,
+				6D033AA225FD0C4D00AEBCC8 /* Plane.swift */,
+			);
+			path = Renderer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -284,7 +302,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D033AA325FD0C4D00AEBCC8 /* Plane.swift in Sources */,
 				6D033A6125FCFE4300AEBCC8 /* Renderer.swift in Sources */,
+				6D033AAD25FEAF9700AEBCC8 /* TextureRenderer.swift in Sources */,
 				6D033A5E25FCFE4300AEBCC8 /* Shaders.metal in Sources */,
 				6D033A3625FCFE4300AEBCC8 /* GameViewController.swift in Sources */,
 				6D033A3425FCFE4300AEBCC8 /* AppDelegate.swift in Sources */,
@@ -295,7 +315,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D033AA425FD0C4D00AEBCC8 /* Plane.swift in Sources */,
 				6D033A6225FCFE4300AEBCC8 /* Renderer.swift in Sources */,
+				6D033AAE25FEAF9700AEBCC8 /* TextureRenderer.swift in Sources */,
 				6D033A5F25FCFE4300AEBCC8 /* Shaders.metal in Sources */,
 				6D033A4725FCFE4300AEBCC8 /* GameViewController.swift in Sources */,
 				6D033A4525FCFE4300AEBCC8 /* AppDelegate.swift in Sources */,
@@ -306,7 +328,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D033AA525FD0C4D00AEBCC8 /* Plane.swift in Sources */,
 				6D033A6325FCFE4300AEBCC8 /* Renderer.swift in Sources */,
+				6D033AAF25FEAF9700AEBCC8 /* TextureRenderer.swift in Sources */,
 				6D033A6025FCFE4300AEBCC8 /* Shaders.metal in Sources */,
 				6D033A5825FCFE4300AEBCC8 /* GameViewController.swift in Sources */,
 				6D033A5625FCFE4300AEBCC8 /* AppDelegate.swift in Sources */,
